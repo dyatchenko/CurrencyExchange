@@ -1,0 +1,580 @@
+div#container
+{
+   width: 700px;
+   position: relative;
+   margin: 0 auto 0 auto;
+   text-align: left;
+}
+body
+{
+   background-color: #FFFFFF;
+   background-image: url(images/index_bkgrnd.png);
+   background-repeat: repeat-x;
+   color: #000000;
+   font-family: Arial;
+   font-size: 13px;
+   margin: 0;
+   text-align: center;
+}
+#div_global
+{
+   background-color: #F0F0F0;
+   -moz-box-shadow: 5px 5px 5px #000000;
+   -webkit-box-shadow: 5px 5px 5px #000000;
+   box-shadow: 5px 5px 5px #000000;
+}
+#Shape1
+{
+   border-width: 0;
+}
+#wb_Text1 
+{
+   background-color: transparent;
+   border: 0px #006400 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text1 div
+{
+   text-align: left;
+}
+#Shape2
+{
+   border-width: 0;
+}
+#wb_Text7 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_Text7 div
+{
+   text-align: center;
+}
+#Image1
+{
+   border: 0px #000000 solid;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#jQueryDatePicker1
+{
+   border: 1px #A9A9A9 solid;
+   background-color: #FFFFFF;
+   color :#000000;
+   font-family: Arial;
+   font-size: 13px;
+   text-align: left;
+   vertical-align: middle;
+}
+.ui-datepicker
+{
+   font-family: Arial;
+   font-size: 13px;
+   z-index: 1003 !important;
+   display: none;
+}
+#jQueryDatePicker2
+{
+   border: 1px #A9A9A9 solid;
+   background-color: #FFFFFF;
+   color :#000000;
+   font-family: Arial;
+   font-size: 13px;
+   text-align: left;
+   vertical-align: middle;
+}
+.ui-datepicker
+{
+   font-family: Arial;
+   font-size: 13px;
+   z-index: 1003 !important;
+   display: none;
+}
+#div_chartMain
+{
+   background-color: #F0F0F0;
+   -moz-box-shadow: 0px 0px 2px #000000;
+   -webkit-box-shadow: 0px 0px 2px #000000;
+   box-shadow: 0px 0px 2px #000000;
+}
+#div_datePickers
+{
+   background-color: #F0F0F0;
+}
+#wb_Text2 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text2 div
+{
+   text-align: left;
+}
+#wb_Text3 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text3 div
+{
+   text-align: left;
+}
+#div_chartSettings
+{
+   background-color: #F0F0F0;
+}
+#div_chartData
+{
+   background-color: #F0F0F0;
+}
+#wb_div_chartHeading 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_div_chartHeading div
+{
+   text-align: center;
+}
+#div_exchangeMain
+{
+   background-color: #F0F0F0;
+   -moz-box-shadow: 0px 0px 2px #000000;
+   -webkit-box-shadow: 0px 0px 2px #000000;
+   box-shadow: 0px 0px 2px #000000;
+}
+#div_exchangeHeading
+{
+   background-color: #F0F0F0;
+}
+#wb_Text5 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_Text5 div
+{
+   text-align: center;
+}
+#div_exchange
+{
+   background-color: #F0F0F0;
+   border: 6px #F0F0F0 solid;
+}
+#jQuerySpinner1
+{
+   color :#222222;
+   font-family: Arial;
+   font-size: 13px;
+   margin: 3px 22px 3px 5px;
+   text-align: left;
+   vertical-align: middle;
+}
+#Combobox1
+{
+   border: 1px #A9A9A9 solid;
+   background-color: #FFFFFF;
+   color: #000000;
+   font-family: Arial;
+   font-size: 13px;
+}
+#Combobox2
+{
+   border: 1px #A9A9A9 solid;
+   background-color: #FFFFFF;
+   color: #000000;
+   font-family: Arial;
+   font-size: 13px;
+}
+#wb_Text4 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_Text4 div
+{
+   text-align: center;
+}
+#wb_Text6 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_Text6 div
+{
+   text-align: center;
+}
+#Editbox1
+{
+   border: 1px #A9A9A9 solid;
+   background-color: #FFFFFF;
+   color :#000000;
+   font-family: Arial;
+   font-size: 13px;
+   text-align: left;
+   vertical-align: middle;
+}
+#wb_Text8 
+{
+   background-color: transparent;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text8 div
+{
+   text-align: left;
+}
+#Editbox1
+{
+   position: absolute;
+   left: 412px;
+   top: 0px;
+   width: 131px;
+   height: 23px;
+   line-height: 23px;
+   z-index: 12;
+}
+#wb_Text1
+{
+   position: absolute;
+   left: 21px;
+   top: 40px;
+   width: 712px;
+   height: 33px;
+   z-index: 58;
+   text-align: left;
+}
+#Shape1
+{
+   width: 694px;
+   height: 52px;
+}
+#div_exchangeMain
+{
+   position: absolute;
+   text-align: left;
+   left: 14px;
+   top: 89px;
+   width: 669px;
+   height: 60px;
+   z-index: 19;
+}
+#Shape2
+{
+   width: 694px;
+   height: 46px;
+}
+#wb_Text2
+{
+   position: absolute;
+   left: 16px;
+   top: 0px;
+   width: 61px;
+   height: 31px;
+   z-index: 1;
+   text-align: left;
+}
+#wb_Image1
+{
+   position: absolute;
+   left: 552px;
+   top: 7px;
+   width: 149px;
+   height: 149px;
+   z-index: 62;
+}
+#wb_Text3
+{
+   position: absolute;
+   left: 133px;
+   top: 0px;
+   width: 61px;
+   height: 31px;
+   z-index: 2;
+   text-align: left;
+}
+#jQueryDatePicker1
+{
+   position: absolute;
+   left: 16px;
+   top: 20px;
+   width: 97px;
+   height: 18px;
+   line-height: 18px;
+   z-index: 0;
+}
+#jQuerySpinner1
+{
+   width: 104px;
+   height: 17px;
+   line-height: 17px;
+}
+#wb_Text4
+{
+   position: absolute;
+   left: 227px;
+   top: 3px;
+   width: 53px;
+   height: 19px;
+   text-align: center;
+   z-index: 10;
+}
+#jQueryDatePicker2
+{
+   position: absolute;
+   left: 133px;
+   top: 20px;
+   width: 97px;
+   height: 18px;
+   line-height: 18px;
+   z-index: 3;
+}
+#div_global
+{
+   position: absolute;
+   text-align: left;
+   left: 7px;
+   top: 7px;
+   width: 694px;
+   height: 535px;
+   z-index: 55;
+}
+#wb_Text5
+{
+   position: absolute;
+   left: 0px;
+   top: 2px;
+   width: 669px;
+   height: 21px;
+   text-align: center;
+   z-index: 8;
+}
+#wb_div_chartHeading
+{
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   width: 669px;
+   height: 26px;
+   text-align: center;
+   z-index: 7;
+}
+#div_chartMain
+{
+   position: absolute;
+   text-align: left;
+   left: 14px;
+   top: 161px;
+   width: 669px;
+   height: 308px;
+   z-index: 18;
+}
+#wb_Text6
+{
+   position: absolute;
+   left: 359px;
+   top: 3px;
+   width: 53px;
+   height: 19px;
+   text-align: center;
+   z-index: 15;
+}
+#wb_Text7
+{
+   position: absolute;
+   left: 0px;
+   top: 504px;
+   width: 316px;
+   height: 13px;
+   text-align: center;
+   z-index: 60;
+}
+#div_exchange
+{
+   position: absolute;
+   text-align: left;
+   left: 0px;
+   top: 23px;
+   width: 657px;
+   height: 25px;
+   z-index: 17;
+}
+#div_chartData
+{
+   position: absolute;
+   text-align: left;
+   left: 0px;
+   top: 76px;
+   width: 669px;
+   height: 232px;
+   z-index: 6;
+}
+#div_datePickers
+{
+   position: absolute;
+   text-align: left;
+   left: 0px;
+   top: 3px;
+   width: 250px;
+   height: 47px;
+   z-index: 4;
+}
+#wb_Text8
+{
+   position: absolute;
+   left: 556px;
+   top: 3px;
+   width: 100px;
+   height: 19px;
+   z-index: 13;
+   text-align: left;
+}
+#div_exchangeHeading
+{
+   position: absolute;
+   text-align: left;
+   left: 0px;
+   top: 0px;
+   width: 669px;
+   height: 25px;
+   z-index: 16;
+}
+#div_chartSettings
+{
+   position: absolute;
+   text-align: left;
+   left: 0px;
+   top: 26px;
+   width: 669px;
+   height: 50px;
+   z-index: 5;
+}
+#wb_jQuerySpinner1
+{
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   width: 133px;
+   height: 25px;
+   z-index: 14;
+}
+#wb_Shape1
+{
+   position: absolute;
+   left: 7px;
+   top: 33px;
+   width: 694px;
+   height: 52px;
+   z-index: 57;
+}
+#wb_Shape2
+{
+   position: absolute;
+   left: 7px;
+   top: 488px;
+   width: 694px;
+   height: 46px;
+   z-index: 59;
+}
+#Combobox1
+{
+   position: absolute;
+   left: 148px;
+   top: 0px;
+   width: 79px;
+   height: 25px;
+   z-index: 9;
+}
+#wb_JavaScript2
+{
+   position: absolute;
+   left: 614px;
+   top: 496px;
+   width: 76px;
+   height: 28px;
+   z-index: 61;
+}
+#Combobox2
+{
+   position: absolute;
+   left: 280px;
+   top: 0px;
+   width: 79px;
+   height: 25px;
+   z-index: 11;
+}
+@media only screen and (max-width: 320px)
+{
+div#container
+{
+   width: 320px;
+}
+#BuildWith1
+{
+   left: 333px;
+   top: 566px;
+   width: 88px;
+   height: 31px;
+   visibility: visible;
+   display: inline;
+}
+#wb_Shape1
+{
+   left: 0px;
+   top: 35px;
+   visibility: visible;
+   display: inline;
+}
+#wb_Text1
+{
+   left: 30px;
+   top: 57px;
+   width: 456px;
+   height: 33px;
+   visibility: visible;
+   display: inline;
+}
+#wb_Shape2
+{
+   left: 0px;
+   top: 435px;
+   visibility: hidden;
+   display: none;
+}
+#wb_Image1
+{
+   left: 174px;
+   top: 12px;
+   width: 149px;
+   height: 149px;
+   visibility: visible;
+   display: inline;
+}
+}

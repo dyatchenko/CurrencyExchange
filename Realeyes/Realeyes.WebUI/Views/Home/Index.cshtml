@@ -1,0 +1,141 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+    
+@section Scripts{
+    <script type="text/javascript">
+        var exchangeRatio = 1;
+        var moneyAmount = 0;
+        
+        function exchangeCurrency() {
+            $('#Editbox1').val(exchangeRatio * moneyAmount);
+        }
+
+        function setupSpinnerChangeBehavior() {
+            $('.ui-spinner-button').click(function () { $(this).siblings('input').change(); });
+
+            $('#jQuerySpinner1').spinner().change(function () {
+                moneyAmount = $(this).spinner('value');
+                exchangeCurrency();
+            });
+        }
+
+        function updateExchangeRatio() {
+            var cur1 = $("#Combobox1 option:selected").text();
+            var cur2 = $("#Combobox2 option:selected").text();
+            $.ajax({
+                url: "/home/GetLastExchangeRate?cur1=" + cur1
+                    + "&cur2=" + cur2,
+                type: "GET",
+                contentType: "application/text; charset=utf-8",
+                complete: function(serverResponse) {
+                    exchangeRatio = serverResponse.responseText;
+                    $("#Rate").html("<strong>Rate: " + exchangeRatio + "</strong>");
+                    exchangeCurrency();
+                }
+            });
+        }
+
+        function prepareUi() {
+            var jQueryDatePicker1Opts =
+            {
+                dateFormat: 'mm/dd/yy',
+                changeMonth: false,
+                changeYear: false,
+                showButtonPanel: false,
+                showAnim: 'show'
+            };
+            $("#jQueryDatePicker1").datepicker(jQueryDatePicker1Opts);
+            var jQueryDatePicker2Opts =
+            {
+                dateFormat: 'mm/dd/yy',
+                changeMonth: false,
+                changeYear: false,
+                showButtonPanel: false,
+                showAnim: 'show'
+            };
+            $("#jQueryDatePicker2").datepicker(jQueryDatePicker2Opts);
+            var jQuerySpinner1Opts =
+            {
+                min: 0,
+                max: 1000000,
+                step: 1
+            };
+            $("#jQuerySpinner1").spinner(jQuerySpinner1Opts);
+        }
+
+        $(document).ready(function () {
+            prepareUi();
+            updateExchangeRatio();
+            setupSpinnerChangeBehavior();
+        });
+    </script>
+}
+
+<div id="container">
+    <div id="div_global">
+        <div id="div_chartMain">
+            <div id="div_chartSettings">
+                <div id="div_datePickers">
+                    <input type="text" id="jQueryDatePicker1" name="jQueryDatePicker1" value="">
+                    <div id="wb_Text2">
+                        <span style="color:#000000;font-family:Calibri;font-size:13px;">Start date<br></span></div>
+                    <div id="wb_Text3">
+                        <span style="color:#000000;font-family:Calibri;font-size:13px;">End date<br></span></div>
+                    <input type="text" id="jQueryDatePicker2" name="jQueryDatePicker1" value="">
+                </div>
+            </div>
+            <div id="div_chartData">
+            </div>
+            <div id="wb_div_chartHeading">
+                <span style="color:#000000;font-family:Calibri;font-size:21px;"><strong>Exchange History</strong></span></div>
+        </div>
+        <div id="div_exchangeMain">
+            <div id="div_exchangeHeading">
+                <div id="wb_Text5">
+                    <span style="color:#000000;font-family:Calibri;font-size:17px;"><strong>Currency Exchange</strong></span></div>
+            </div>
+            <div id="div_exchange">
+                <select name="ComboboxCur1" size="1" id="Combobox1" onchange="updateExchangeRatio();">
+                    <option selected value="EUR">EUR</option>
+                    @foreach (var cur in Model)
+                    {
+                        <option value="@cur">@cur</option>
+                    }
+                </select>
+                <div id="wb_Text4">
+                    <span style="color:#000000;font-family:Calibri;font-size:16px;"><strong>To</strong></span></div>
+                <select name="ComboboxCur2" size="1" id="Combobox2" onchange="updateExchangeRatio();">
+                    <option selected value="EUR">EUR</option>
+                    @foreach (var cur in Model)
+                    {
+                        <option value="@cur">@cur</option>
+                    }
+                </select>
+                <input type="text" id="Editbox1" name="Editbox1" value="">
+                <div id="wb_Text8">
+                    <span id="Rate" style="color:#000000;font-family:Calibri;font-size:16px;"><strong>Rate:</strong></span></div>
+                <div id="wb_jQuerySpinner1">
+                    <input type="text" id="jQuerySpinner1" name="jQuerySpinner1" value="0"></div>
+                <div id="wb_Text6">
+                    <span style="color:#000000;font-family:Calibri;font-size:16px;"><strong>=</strong></span></div>
+            </div>
+        </div>
+    </div>
+    <div id="wb_Shape1">
+        <a href="https://github.com/dyatchenko/ServiceBrokerListener"><img src="~/images/img0001.png" id="Shape1" alt=""></a></div>
+    <div id="wb_Text1">
+        <span style="color:#FFFFFF;font-family:Calibri;font-size:27px;"><strong>European Central Bank currency exchange</strong></span></div>
+    <div id="wb_Shape2">
+        <img src="~/images/img0003.png" id="Shape2" alt=""></div>
+    <div id="wb_Text7">
+        <span style="color:#FFFFFF;font-family:Tahoma;font-size:11px;">Powered by Dyatchenko&nbsp; E-Mail: dyatchenko.dv@gmail.com</span></div>
+    <div id="wb_JavaScript2">
+        <a href="http://www.facebook.com/100004461885316" rel="nofollow"><img style="width:75px;height:30px;border-width:0;" alt="Dyatchenko Facebook page" title="Dyatchenko Facebook page" src="~/Images/logo_facebook.gif"></a></div>
+    <div id="wb_Image1">
+        <a href="https://github.com/dyatchenko/CurrencyExchange" title="CurrencyExchange"><img src="~/images/img0002.png" id="Image1" alt="CurrencyExchange"></a></div>
+</div>
