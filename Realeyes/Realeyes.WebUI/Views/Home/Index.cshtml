@@ -10,7 +10,119 @@
     <script type="text/javascript">
         var exchangeRatio = 1;
         var moneyAmount = 0;
+        var graph = null;
         
+        function getDateStr(today)
+        {
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if(dd<10) {
+                dd = '0' + dd;
+            } 
+
+            if(mm<10) {
+                mm = '0' + mm;
+            }
+
+            return mm + '/' + dd + '/' + yyyy;
+        }
+
+        function parseDate(input) {
+            var parts = input.split('/');
+            // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+            return new Date(parts[2], parts[0] - 1, parts[1]); // Note: months are 0-based
+        }
+
+        function updateGraph() {
+            var date1 = $("#jQueryDatePicker1").val();
+            var date2 = $("#jQueryDatePicker2").val();
+            var cur1 = $("#Combobox1 option:selected").text();
+            var cur2 = $("#Combobox2 option:selected").text();
+
+            if (date1 == "" || date2 == "") {
+                var today = new Date();
+                var weekAgo = new Date();
+                weekAgo.setDate(today.getDate() - 7);
+
+                date1 = getDateStr(weekAgo);
+                date2 = getDateStr(today);
+
+                $("#jQueryDatePicker1").val(date1);
+                $("#jQueryDatePicker2").val(date2);
+            }
+
+            var originalDate1 = parseDate(date1);
+            var originalDate2 = parseDate(date2);
+
+            if (originalDate1 >= originalDate2) {
+                originalDate1.setDate(originalDate2.getDate() - 2);
+                date1 = getDateStr(originalDate1);
+                $("#jQueryDatePicker1").val(date1);
+            }
+           
+            $.ajax({
+                url: "/home/GetExchangeHistory?cur1=" + cur1
+                    + "&cur2=" + cur2 + "&date1=" + date1 + "&date2=" + date2,
+                type: "POST",
+                contentType: "application/text; charset=utf-8",
+                complete: function (serverResponse) {
+                    var maxValues = 30,
+                        resp = serverResponse.responseText,
+                        parsedJson = JSON.parse(resp),
+                        data = [],
+                        oneDayMsec = 86400000,
+                        numberOfDays = (originalDate2.getTime() - originalDate1.getTime()) / oneDayMsec,
+                        dateStep = (numberOfDays * oneDayMsec) / maxValues,
+                        orgnTime1 = originalDate1.getTime(),
+                        orgnTime2 = originalDate2.getTime();
+
+                    for (var i = orgnTime1 ; i <= orgnTime2 ; i += dateStep) {
+                        var index = Math.floor(((i - orgnTime1) * (parsedJson.length - 1)) / (orgnTime2 - orgnTime1));
+
+                        data.push({ x: Math.round(i / 1000), y: parsedJson[index] });
+                    }
+
+                    graph.series[0].data = data;
+                    graph.update();
+                }
+            });
+        }
+
+        function setupGraph() {
+            var palette = new Rickshaw.Color.Palette();
+
+            graph = new Rickshaw.Graph({
+                element: document.querySelector("#chart"),
+                width: 600,
+                height: 200,
+                renderer: 'line',
+                series: [
+                    {
+                        name: 'Rate',
+                        data: [],
+                        color: palette.color()
+                    }
+                ]
+            });
+
+            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+                graph: graph
+            });
+            var xAxis = new Rickshaw.Graph.Axis.Time({
+                graph: graph
+            });
+            var yAxis = new Rickshaw.Graph.Axis.Y({
+                graph: graph,
+                orientation: 'left',
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                element: document.getElementById('y_axis'),
+            });
+
+            graph.render();
+        }
+
         function exchangeCurrency() {
             $('#Editbox1').val(exchangeRatio * moneyAmount);
         }
@@ -72,6 +184,8 @@
             prepareUi();
             updateExchangeRatio();
             setupSpinnerChangeBehavior();
+            setupGraph();
+            updateGraph();
         });
     </script>
 }
@@ -81,15 +195,19 @@
         <div id="div_chartMain">
             <div id="div_chartSettings">
                 <div id="div_datePickers">
-                    <input type="text" id="jQueryDatePicker1" name="jQueryDatePicker1" value="">
+                    <input type="text" id="jQueryDatePicker1" name="jQueryDatePicker1" value="" onchange="updateGraph();">
                     <div id="wb_Text2">
                         <span style="color:#000000;font-family:Calibri;font-size:13px;">Start date<br></span></div>
                     <div id="wb_Text3">
                         <span style="color:#000000;font-family:Calibri;font-size:13px;">End date<br></span></div>
-                    <input type="text" id="jQueryDatePicker2" name="jQueryDatePicker1" value="">
+                    <input type="text" id="jQueryDatePicker2" name="jQueryDatePicker1" value="" onchange="updateGraph();">
                 </div>
             </div>
             <div id="div_chartData">
+                <div id="chart_container">
+                    <div id="y_axis"></div>
+                    <div id="chart"></div>
+                </div>
             </div>
             <div id="wb_div_chartHeading">
                 <span style="color:#000000;font-family:Calibri;font-size:21px;"><strong>Exchange History</strong></span></div>
@@ -134,8 +252,4 @@
         <img src="~/images/img0003.png" id="Shape2" alt=""></div>
     <div id="wb_Text7">
         <span style="color:#FFFFFF;font-family:Tahoma;font-size:11px;">Powered by Dyatchenko&nbsp; E-Mail: dyatchenko.dv@gmail.com</span></div>
-    <div id="wb_JavaScript2">
-        <a href="http://www.facebook.com/100004461885316" rel="nofollow"><img style="width:75px;height:30px;border-width:0;" alt="Dyatchenko Facebook page" title="Dyatchenko Facebook page" src="~/Images/logo_facebook.gif"></a></div>
-    <div id="wb_Image1">
-        <a href="https://github.com/dyatchenko/CurrencyExchange" title="CurrencyExchange"><img src="~/images/img0002.png" id="Image1" alt="CurrencyExchange"></a></div>
 </div>

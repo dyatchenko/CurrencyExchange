@@ -8,7 +8,7 @@ div#container
 body
 {
    background-color: #FFFFFF;
-   background-image: url(images/index_bkgrnd.png);
+   background-image: url(jquery/images/index_bkgrnd.png);
    background-repeat: repeat-x;
    color: #000000;
    font-family: Arial;
@@ -136,9 +136,9 @@ body
 {
    background-color: #F0F0F0;
 }
-#div_chartData
-{
-   background-color: #F0F0F0;
+#div_chartData {
+    background-color: #F0F0F0;
+    /*overflow-y: scroll;*/
 }
 #wb_div_chartHeading 
 {
@@ -265,7 +265,7 @@ body
 {
    position: absolute;
    left: 21px;
-   top: 40px;
+   top: 37px;
    width: 712px;
    height: 33px;
    z-index: 58;
