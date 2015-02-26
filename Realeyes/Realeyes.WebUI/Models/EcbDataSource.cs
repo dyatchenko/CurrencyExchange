@@ -13,18 +13,10 @@
 
         public XElement GetEcbExchangeRatesXml()
         {
-            const string FileName = "ecb-xml.tmp";
-
             XElement result = null;
 
-            try
-            {
-                using (WebClient myWebClient = new WebClient())
-                    myWebClient.DownloadFile(ECB_URL, FileName);
-
-                result = XElement.Parse(File.ReadAllText(FileName));
-            }
-            finally { File.Delete(FileName); }
+            using (WebClient myWebClient = new WebClient())
+                result = XElement.Parse(myWebClient.DownloadString(ECB_URL));
 
             return result;
         }
