@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="xml_EcbSample" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;gesmes:Envelope xmlns:gesmes="http://www.gesmes.org/xml/2002-08-01" xmlns="http://www.ecb.int/vocabulary/2002-08-01/eurofxref"&gt;
+	&lt;gesmes:subject&gt;Reference rates&lt;/gesmes:subject&gt;
+	&lt;gesmes:Sender&gt;
+		&lt;gesmes:name&gt;European Central Bank&lt;/gesmes:name&gt;
+	&lt;/gesmes:Sender&gt;
+	&lt;Cube&gt;
+		&lt;Cube time="2015-02-26"&gt;
+			&lt;Cube currency="USD" rate="1.1317"/&gt;
+			&lt;Cube currency="JPY" rate="134.54"/&gt;
+			&lt;Cube currency="BGN" rate="1.9558"/&gt;
+			&lt;Cube currency="CZK" rate="27.515"/&gt;
+			&lt;Cube currency="DKK" rate="7.4679"/&gt;
+			&lt;Cube currency="GBP" rate="0.7301"/&gt;
+			&lt;Cube currency="HUF" rate="302.88"/&gt;
+			&lt;Cube currency="PLN" rate="4.1535"/&gt;
+			&lt;Cube currency="RON" rate="4.4278"/&gt;
+			&lt;Cube currency="SEK" rate="9.4146"/&gt;
+			&lt;Cube currency="CHF" rate="1.0745"/&gt;
+			&lt;Cube currency="NOK" rate="8.564"/&gt;
+			&lt;Cube currency="HRK" rate="7.6965"/&gt;
+			&lt;Cube currency="RUB" rate="68.8165"/&gt;
+			&lt;Cube currency="TRY" rate="2.8085"/&gt;
+			&lt;Cube currency="AUD" rate="1.4357"/&gt;
+			&lt;Cube currency="BRL" rate="3.2264"/&gt;
+			&lt;Cube currency="CAD" rate="1.4112"/&gt;
+			&lt;Cube currency="CNY" rate="7.0831"/&gt;
+			&lt;Cube currency="HKD" rate="8.776"/&gt;
+			&lt;Cube currency="IDR" rate="14537.82"/&gt;
+			&lt;Cube currency="ILS" rate="4.4552"/&gt;
+			&lt;Cube currency="INR" rate="69.8838"/&gt;
+			&lt;Cube currency="KRW" rate="1240.6"/&gt;
+			&lt;Cube currency="MXN" rate="16.8425"/&gt;
+			&lt;Cube currency="MYR" rate="4.0483"/&gt;
+			&lt;Cube currency="NZD" rate="1.4919"/&gt;
+			&lt;Cube currency="PHP" rate="49.767"/&gt;
+			&lt;Cube currency="SGD" rate="1.5293"/&gt;
+			&lt;Cube currency="THB" rate="36.57"/&gt;
+			&lt;Cube currency="ZAR" rate="12.9381"/&gt;
+		&lt;/Cube&gt;
+		&lt;Cube time="2015-02-25"&gt;
+			&lt;Cube currency="USD" rate="1.1346"/&gt;
+			&lt;Cube currency="JPY" rate="134.92"/&gt;
+			&lt;Cube currency="BGN" rate="1.9558"/&gt;
+			&lt;Cube currency="CZK" rate="27.419"/&gt;
+			&lt;Cube currency="DKK" rate="7.465"/&gt;
+			&lt;Cube currency="GBP" rate="0.7328"/&gt;
+			&lt;Cube currency="HUF" rate="305.55"/&gt;
+			&lt;Cube currency="PLN" rate="4.1615"/&gt;
+			&lt;Cube currency="RON" rate="4.4223"/&gt;
+			&lt;Cube currency="SEK" rate="9.491"/&gt;
+			&lt;Cube currency="CHF" rate="1.0773"/&gt;
+			&lt;Cube currency="NOK" rate="8.6325"/&gt;
+			&lt;Cube currency="HRK" rate="7.684"/&gt;
+			&lt;Cube currency="RUB" rate="70.3432"/&gt;
+			&lt;Cube currency="TRY" rate="2.8017"/&gt;
+			&lt;Cube currency="AUD" rate="1.4388"/&gt;
+			&lt;Cube currency="BRL" rate="3.2395"/&gt;
+			&lt;Cube currency="CAD" rate="1.4116"/&gt;
+			&lt;Cube currency="CNY" rate="7.1025"/&gt;
+			&lt;Cube currency="HKD" rate="8.7997"/&gt;
+			&lt;Cube currency="IDR" rate="14617.03"/&gt;
+			&lt;Cube currency="ILS" rate="4.483"/&gt;
+			&lt;Cube currency="INR" rate="70.3083"/&gt;
+			&lt;Cube currency="KRW" rate="1248.89"/&gt;
+			&lt;Cube currency="MXN" rate="16.9424"/&gt;
+			&lt;Cube currency="MYR" rate="4.0908"/&gt;
+			&lt;Cube currency="NZD" rate="1.5031"/&gt;
+			&lt;Cube currency="PHP" rate="49.988"/&gt;
+			&lt;Cube currency="SGD" rate="1.5378"/&gt;
+			&lt;Cube currency="THB" rate="36.909"/&gt;
+			&lt;Cube currency="ZAR" rate="13.025"/&gt;
+		&lt;/Cube&gt;
+	&lt;/Cube&gt;
+&lt;/gesmes:Envelope&gt;</value>
+  </data>
+</root>

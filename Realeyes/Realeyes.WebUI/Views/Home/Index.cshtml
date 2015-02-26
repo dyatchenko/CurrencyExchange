@@ -78,12 +78,20 @@
                         orgnTime1 = originalDate1.getTime(),
                         orgnTime2 = originalDate2.getTime();
 
+                    var minY = null;
+                    var maxY = null;
+
                     for (var i = orgnTime1 ; i <= orgnTime2 ; i += dateStep) {
                         var index = Math.floor(((i - orgnTime1) * (parsedJson.length - 1)) / (orgnTime2 - orgnTime1));
+                        var y = parsedJson[index];
 
-                        data.push({ x: Math.round(i / 1000), y: parsedJson[index] });
+                        if (maxY == null || y > maxY) maxY = y;
+                        if (minY == null || y < maxY) minY = y;
+
+                        data.push({ x: Math.round(i / 1000), y: y });
                     }
 
+                    graph.max = maxY + 0.3 * maxY;
                     graph.series[0].data = data;
                     graph.update();
                 }
@@ -102,7 +110,7 @@
                     {
                         name: 'Rate',
                         data: [],
-                        color: palette.color()
+                        color: palette.color(),
                     }
                 ]
             });
@@ -124,7 +132,7 @@
         }
 
         function exchangeCurrency() {
-            $('#Editbox1').val(exchangeRatio * moneyAmount);
+            $('#Editbox1').val(Math.round(exchangeRatio * moneyAmount * 100) / 100);
         }
 
         function setupSpinnerChangeBehavior() {
@@ -146,7 +154,7 @@
                 contentType: "application/text; charset=utf-8",
                 complete: function(serverResponse) {
                     exchangeRatio = serverResponse.responseText;
-                    $("#Rate").html("<strong>Rate: " + exchangeRatio + "</strong>");
+                    $("#Rate").html("<strong>Rate: " + Math.round(exchangeRatio * 100) / 100 + "</strong>");
                     exchangeCurrency();
                 }
             });
@@ -218,23 +226,29 @@
                     <span style="color:#000000;font-family:Calibri;font-size:17px;"><strong>Currency Exchange</strong></span></div>
             </div>
             <div id="div_exchange">
-                <select name="ComboboxCur1" size="1" id="Combobox1" onchange="updateExchangeRatio();">
-                    <option selected value="EUR">EUR</option>
+                <select name="ComboboxCur1" size="1" id="Combobox1" onchange="updateExchangeRatio();updateGraph();">
                     @foreach (var cur in Model)
                     {
-                        <option value="@cur">@cur</option>
+                        if (cur != "USD"){
+                            <option value="@cur">@cur</option>
+                        }else{
+                            <option value="@cur" selected>@cur</option>
+                        }
                     }
                 </select>
                 <div id="wb_Text4">
                     <span style="color:#000000;font-family:Calibri;font-size:16px;"><strong>To</strong></span></div>
-                <select name="ComboboxCur2" size="1" id="Combobox2" onchange="updateExchangeRatio();">
-                    <option selected value="EUR">EUR</option>
+                <select name="ComboboxCur2" size="1" id="Combobox2" onchange="updateExchangeRatio();updateGraph();">
                     @foreach (var cur in Model)
                     {
-                        <option value="@cur">@cur</option>
+                        if (cur != "EUR"){
+                            <option value="@cur">@cur</option>
+                        }else{
+                            <option value="@cur" selected>@cur</option>
+                        }
                     }
                 </select>
-                <input type="text" id="Editbox1" name="Editbox1" value="">
+                <input type="text" id="Editbox1" name="Editbox1" value="" readonly>
                 <div id="wb_Text8">
                     <span id="Rate" style="color:#000000;font-family:Calibri;font-size:16px;"><strong>Rate:</strong></span></div>
                 <div id="wb_jQuerySpinner1">
