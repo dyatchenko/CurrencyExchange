@@ -218,7 +218,6 @@
     <Content Include="Scripts\JQuery\jquery.ui.spinner.min.js" />
     <Content Include="Scripts\JQuery\jquery.ui.widget.min.js" />
     <Content Include="Scripts\Rickshaw\Rickshaw.js" />
-    <Content Include="Scripts\Rickshaw\rickshaw.min.js" />
     <Content Include="Scripts\Rickshaw\Vendor\d3.layout.min.js" />
     <Content Include="Scripts\Rickshaw\Vendor\d3.min.js" />
     <Content Include="Web.config" />
