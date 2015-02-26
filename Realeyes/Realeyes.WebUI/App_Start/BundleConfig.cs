@@ -23,8 +23,9 @@
 
             bundles.Add(
                 new StyleBundle("~/Content/css").Include("~/Content/Rickshaw/rickshaw.min.css")
-                    .Include("~/Content/*.css")
-                    .Include("~/Content/JQuery/*.css"));
+                    .Include("~/Content/*.css"));
+            bundles.Add(new StyleBundle("~/Content/JQuery/css").Include("~/Content/JQuery/*.css"));
+                    
             bundles.Add(
                 new ScriptBundle("~/bundles/scripts").Include(
                     "~/Scripts/JQuery/jquery-1.11.1.min.js",
