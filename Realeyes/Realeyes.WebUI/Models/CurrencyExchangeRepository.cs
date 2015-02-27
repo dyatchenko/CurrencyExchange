@@ -82,14 +82,15 @@ namespace Realeyes.WebUI.Models
 
             var upperedCur1 = firstCurrency.ToUpper();
             var upperedCur2 = secondCurrency.ToUpper();
-            double deflt = 0d;
+            double deflt = double.NaN;
             int firstZeroesCount = 0;
 
             for (DateTime current = beginningDate; current < endDate; current = current.AddDays(1))
             {
                 if (!exchangeRates.ContainsKey(current))
                 {
-                    firstZeroesCount++;
+                    if (double.IsNaN(deflt)) firstZeroesCount++;
+                    else yield return deflt;
                     continue;
                 }
 
@@ -97,7 +98,8 @@ namespace Realeyes.WebUI.Models
 
                 if (!rates.ContainsKey(upperedCur1) || !rates.ContainsKey(upperedCur2))
                 {
-                    yield return deflt;
+                    if (double.IsNaN(deflt)) firstZeroesCount++;
+                    else yield return deflt;
                     continue;
                 }
 
