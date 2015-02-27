@@ -83,12 +83,13 @@ namespace Realeyes.WebUI.Models
             var upperedCur1 = firstCurrency.ToUpper();
             var upperedCur2 = secondCurrency.ToUpper();
             double deflt = 0d;
+            int firstZeroesCount = 0;
 
             for (DateTime current = beginningDate; current < endDate; current = current.AddDays(1))
             {
                 if (!exchangeRates.ContainsKey(current))
                 {
-                    yield return deflt;
+                    firstZeroesCount++;
                     continue;
                 }
 
@@ -101,6 +102,13 @@ namespace Realeyes.WebUI.Models
                 }
 
                 deflt = rates[upperedCur2] / rates[upperedCur1];
+
+                if (firstZeroesCount != 0)
+                {
+                    for (int i = 0; i < firstZeroesCount; i++) yield return deflt;
+                    firstZeroesCount = 0;
+                }
+
                 yield return deflt;
             }
         }
