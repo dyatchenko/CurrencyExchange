@@ -1,9 +1,9 @@
 ﻿namespace Realeyes.WebUI.Models
 {
     using System;
+    using System.IO;
     using System.Net;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using System.Web;
     using System.Xml.Linq;
     using Realeyes.WebUI.Abstract;
 
@@ -11,15 +11,14 @@
     {
         private const string ECB_URL = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml";
 
-        public async Task<XElement> GetEcbExchangeRatesXml()
+        public XElement GetEcbExchangeRatesXml()
         {
-            Func<XElement> getEcbData = () =>
-                {
-                    using (WebClient myWebClient = new WebClient()) 
-                        return XElement.Parse(myWebClient.DownloadString(ECB_URL));
-                };
+            XElement result = null;
 
-            return await Task.Run(getEcbData);
+            using (WebClient myWebClient = new WebClient())
+                result = XElement.Parse(myWebClient.DownloadString(ECB_URL));
+
+            return result;
         }
     }
 }

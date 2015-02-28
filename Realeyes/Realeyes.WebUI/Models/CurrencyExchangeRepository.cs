@@ -1,11 +1,11 @@
-﻿namespace Realeyes.WebUI.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Realeyes.WebUI.Models
 {
     using System.Globalization;
-    using System.Threading.Tasks;
     using System.Xml.Linq;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using Realeyes.WebUI.Abstract;
 
@@ -13,16 +13,14 @@
 
     public class CurrencyExchangeRepository : ICurrencyExchangeRepository
     {
-        private const string EURO_CURRENCY_NAME = "EUR";
-
-        private const string XML_NAMESPACE = "http://www.ecb.int/vocabulary/2002-08-01/eurofxref";
-
         private readonly IEcbDataSource dataSource;
 
         private readonly Dictionary<DateTime, Dictionary<string, double>> exchangeRates =
             new Dictionary<DateTime, Dictionary<string, double>>();
 
-        private readonly Task processDataTask;
+        private const string EURO_CURRENCY_NAME = "EUR";
+
+        private const string XML_NAMESPACE = "http://www.ecb.int/vocabulary/2002-08-01/eurofxref";
 
         public CurrencyExchangeRepository(IEcbDataSource dataSource)
         {
@@ -32,13 +30,11 @@
             }
 
             this.dataSource = dataSource;
-            this.processDataTask = PrepareExchangeRates();
+            PrepareExchangeRates();
         }
 
         public double GetLastExchangeRate(string firstCurrency, string secondCurrency)
         {
-            processDataTask.Wait();
-
             if (string.IsNullOrWhiteSpace(firstCurrency) || string.IsNullOrWhiteSpace(secondCurrency))
                 return 0;
 
@@ -59,8 +55,6 @@
 
         public string[] GetAllPossibleCurrencies()
         {
-            processDataTask.Wait();
-
             return exchangeRates.First().Value.Keys.ToArray();
         }
 
@@ -70,7 +64,6 @@
             DateTime beginningDate,
             DateTime endDate)
         {
-            processDataTask.Wait();
             return GetCurrenciesExchangeHistoryAsEnumerable(
                 firstCurrency,
                 secondCurrency,
@@ -124,9 +117,9 @@
 
         // <Cube time="2015-02-26">
         //    <Cube currency="USD" rate="1.1317"/>
-        private async Task PrepareExchangeRates()
+        private void PrepareExchangeRates()
         {
-            var mainXml = await this.dataSource.GetEcbExchangeRatesXml();
+            var mainXml = this.dataSource.GetEcbExchangeRatesXml();
             if (mainXml == null) return;
 
             var name = XName.Get("Cube", XML_NAMESPACE);

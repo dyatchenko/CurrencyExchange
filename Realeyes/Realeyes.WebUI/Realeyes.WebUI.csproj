@@ -210,7 +210,6 @@
     <Content Include="Images\index_bkgrnd.png" />
     <Content Include="Images\logo_facebook.gif" />
     <Content Include="Images\logo_linkedin.gif" />
-    <Content Include="Images\wait_please.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\JQuery\jquery-1.11.1.min.js" />
