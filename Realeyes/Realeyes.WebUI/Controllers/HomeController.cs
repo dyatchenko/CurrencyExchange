@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace Realeyes.WebUI.Controllers
+﻿namespace Realeyes.WebUI.Controllers
 {
+    using System;
+    using System.Web.Mvc;
     using Realeyes.WebUI.Abstract;
 
     public class HomeController : Controller
@@ -23,7 +19,7 @@ namespace Realeyes.WebUI.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(repo.GetAllPossibleCurrencies());
+            return View();
         }
 
         [HttpGet]
@@ -32,6 +28,12 @@ namespace Realeyes.WebUI.Controllers
             if (string.IsNullOrWhiteSpace(cur1) || string.IsNullOrWhiteSpace(cur2)) return 1;
 
             return repo.GetLastExchangeRate(cur1, cur2);
+        }
+
+        [HttpPost]
+        public JsonResult GetAllPossibleCurrencies()
+        {
+            return Json(repo.GetAllPossibleCurrencies());
         }
 
         [HttpPost]
