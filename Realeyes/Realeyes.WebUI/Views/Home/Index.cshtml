@@ -1,6 +1,4 @@
-﻿@model IEnumerable<string>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -11,6 +9,7 @@
         var exchangeRatio = 1;
         var moneyAmount = 0;
         var graph = null;
+        var showLoading = true;
         
         function getDateStr(today)
         {
@@ -135,12 +134,34 @@
             $('#Editbox1').val(Math.round(exchangeRatio * moneyAmount * 100) / 100);
         }
 
-        function setupSpinnerChangeBehavior() {
-            $('.ui-spinner-button').click(function () { $(this).siblings('input').change(); });
+        function updateCurrenciesNames() {
+            $.ajax({
+                url: "/home/GetAllPossibleCurrencies",
+                type: "POST",
+                contentType: "application/text; charset=utf-8",
+                complete: function (serverResponse) {
+                    var values = JSON.parse(serverResponse.responseText);
+                    
+                    $.each(values, function (key, value) {
+                        $('#Combobox1')
+                            .append($(value == "USD"
+                                        ? "<option selected></option>"
+                                        : "<option></option>")
+                                    .attr("value", value)
+                                    .text(value));
+                        $('#Combobox2')
+                            .append($(value == "EUR" 
+                                        ? "<option selected></option>"
+                                        : "<option></option>")
+                                    .attr("value", value)
+                                    .text(value));
+                    });
 
-            $('#jQuerySpinner1').spinner().change(function () {
-                moneyAmount = $(this).spinner('value');
-                exchangeCurrency();
+                    updateExchangeRatio();
+                    updateGraph();
+
+                    showLoading = false;
+                }
             });
         }
 
@@ -152,11 +173,20 @@
                     + "&cur2=" + cur2,
                 type: "GET",
                 contentType: "application/text; charset=utf-8",
-                complete: function(serverResponse) {
+                complete: function (serverResponse) {
                     exchangeRatio = serverResponse.responseText;
                     $("#Rate").html("<strong>Rate: " + Math.round(exchangeRatio * 100) / 100 + "</strong>");
                     exchangeCurrency();
                 }
+            });
+        }
+
+        function setupSpinnerChangeBehavior() {
+            $('.ui-spinner-button').click(function () { $(this).siblings('input').change(); });
+
+            $('#jQuerySpinner1').spinner().change(function () {
+                moneyAmount = $(this).spinner('value');
+                exchangeCurrency();
             });
         }
 
@@ -186,14 +216,23 @@
                 step: 1
             };
             $("#jQuerySpinner1").spinner(jQuerySpinner1Opts);
+
+            var body = $("body");
+            $(document).on({
+                ajaxStart: function () {
+                    if (showLoading) body.addClass("loading");
+                },
+                ajaxStop: function () {
+                    body.removeClass("loading");
+                }
+            });
         }
 
         $(document).ready(function () {
             prepareUi();
-            updateExchangeRatio();
             setupSpinnerChangeBehavior();
             setupGraph();
-            updateGraph();
+            updateCurrenciesNames();
         });
     </script>
 }
@@ -227,26 +266,10 @@
             </div>
             <div id="div_exchange">
                 <select name="ComboboxCur1" size="1" id="Combobox1" onchange="updateExchangeRatio();updateGraph();">
-                    @foreach (var cur in Model)
-                    {
-                        if (cur != "USD"){
-                            <option value="@cur">@cur</option>
-                        }else{
-                            <option value="@cur" selected>@cur</option>
-                        }
-                    }
                 </select>
                 <div id="wb_Text4">
                     <span style="color:#000000;font-family:Calibri;font-size:16px;"><strong>To</strong></span></div>
                 <select name="ComboboxCur2" size="1" id="Combobox2" onchange="updateExchangeRatio();updateGraph();">
-                    @foreach (var cur in Model)
-                    {
-                        if (cur != "EUR"){
-                            <option value="@cur">@cur</option>
-                        }else{
-                            <option value="@cur" selected>@cur</option>
-                        }
-                    }
                 </select>
                 <input type="text" id="Editbox1" name="Editbox1" value="" readonly>
                 <div id="wb_Text8">
@@ -266,4 +289,5 @@
         <img src="~/images/img0003.png" id="Shape2" alt=""></div>
     <div id="wb_Text7">
         <span style="color:#FFFFFF;font-family:Tahoma;font-size:11px;">Powered by Dyatchenko&nbsp; E-Mail: dyatchenko.dv@gmail.com</span></div>
+    <div class="modal"><!-- Place at bottom of page --></div>
 </div>

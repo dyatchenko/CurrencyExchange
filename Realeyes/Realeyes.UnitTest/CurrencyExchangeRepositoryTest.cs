@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Realeyes.UnitTests
 {
     using System.Xml.Linq;
+    using System;
+    using System.Threading.Tasks;
 
     using Moq;
 
@@ -23,14 +20,14 @@ namespace Realeyes.UnitTests
         {
             Mock<IEcbDataSource> mock = new Mock<IEcbDataSource>();
             mock.Setup(p => p.GetEcbExchangeRatesXml())
-                .Returns(XElement.Parse(Properties.Resources.xml_EcbSample));
+                .Returns(Task.FromResult(XElement.Parse(Properties.Resources.xml_EcbSample)));
 
             var repo = new CurrencyExchangeRepository(mock.Object);
 
-            double result = repo.GetLastExchangeRate("EUR", "USD");
+            double result = repo.GetLastExchangeRate("EUR", "USD").Result;
             Assert.AreEqual(1.1317d, result);
 
-            result = repo.GetLastExchangeRate("USD", "EUR");
+            result = repo.GetLastExchangeRate("USD", "EUR").Result;
             Assert.AreEqual(1/1.1317d, result);
         }
 
@@ -39,13 +36,13 @@ namespace Realeyes.UnitTests
         {
             Mock<IEcbDataSource> mock = new Mock<IEcbDataSource>();
             mock.Setup(p => p.GetEcbExchangeRatesXml())
-                .Returns(XElement.Parse(Properties.Resources.xml_EcbSample));
+                .Returns(Task.FromResult(XElement.Parse(Properties.Resources.xml_EcbSample)));
 
             var repo = new CurrencyExchangeRepository(mock.Object);
 
             var all = repo.GetAllPossibleCurrencies();
 
-            Assert.AreEqual(32, all.Length);
+            Assert.AreEqual(32, all.Result.Length);
         }
 
         [Test]
@@ -53,7 +50,7 @@ namespace Realeyes.UnitTests
         {
             Mock<IEcbDataSource> mock = new Mock<IEcbDataSource>();
             mock.Setup(p => p.GetEcbExchangeRatesXml())
-                .Returns(XElement.Parse(Properties.Resources.xml_EcbSample));
+                .Returns(Task.FromResult(XElement.Parse(Properties.Resources.xml_EcbSample)));
 
             var repo = new CurrencyExchangeRepository(mock.Object);
 
@@ -63,7 +60,7 @@ namespace Realeyes.UnitTests
                 new DateTime(2015, 02, 01),
                 new DateTime(2015, 03, 01));
 
-            Assert.AreEqual(28, history.Length);
+            Assert.AreEqual(28, history.Result.Length);
         }
     }
 }

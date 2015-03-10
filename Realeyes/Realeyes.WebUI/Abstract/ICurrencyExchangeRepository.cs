@@ -1,14 +1,15 @@
 ﻿namespace Realeyes.WebUI.Abstract
 {
     using System;
+    using System.Threading.Tasks;
 
     public interface ICurrencyExchangeRepository
     {
-        double GetLastExchangeRate(string firstCurrency, string secondCurrency);
+        Task<double> GetLastExchangeRate(string firstCurrency, string secondCurrency);
 
-        string[] GetAllPossibleCurrencies();
+        Task<string[]> GetAllPossibleCurrencies();
 
-        double[] GetCurrenciesExchangeHistory(
+        Task<double[]> GetCurrenciesExchangeHistory(
             string firstCurrency,
             string secondCurrency,
             DateTime beginningDate,

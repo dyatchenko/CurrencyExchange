@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Realeyes.WebUI.Models
+﻿namespace Realeyes.WebUI.Models
 {
     using System.Globalization;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Xml.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Realeyes.WebUI.Abstract;
 
@@ -13,14 +14,20 @@ namespace Realeyes.WebUI.Models
 
     public class CurrencyExchangeRepository : ICurrencyExchangeRepository
     {
-        private readonly IEcbDataSource dataSource;
+        private const string EURO_CURRENCY_NAME = "EUR";
+
+        private const string XML_NAMESPACE = "http://www.ecb.int/vocabulary/2002-08-01/eurofxref";
 
         private readonly Dictionary<DateTime, Dictionary<string, double>> exchangeRates =
             new Dictionary<DateTime, Dictionary<string, double>>();
 
-        private const string EURO_CURRENCY_NAME = "EUR";
+        private readonly TimeSpan updateInterval = new TimeSpan(1, 0, 0, 0);
 
-        private const string XML_NAMESPACE = "http://www.ecb.int/vocabulary/2002-08-01/eurofxref";
+        private readonly IEcbDataSource dataSource;
+
+        private DateTime lastTimeStamp = DateTime.MinValue;
+
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
 
         public CurrencyExchangeRepository(IEcbDataSource dataSource)
         {
@@ -30,11 +37,12 @@ namespace Realeyes.WebUI.Models
             }
 
             this.dataSource = dataSource;
-            PrepareExchangeRates();
         }
 
-        public double GetLastExchangeRate(string firstCurrency, string secondCurrency)
+        public async Task<double> GetLastExchangeRate(string firstCurrency, string secondCurrency)
         {
+            await PrepareExchangeRates();
+
             if (string.IsNullOrWhiteSpace(firstCurrency) || string.IsNullOrWhiteSpace(secondCurrency))
                 return 0;
 
@@ -53,17 +61,20 @@ namespace Realeyes.WebUI.Models
             return rate2 / rate1;
         }
 
-        public string[] GetAllPossibleCurrencies()
+        public async Task<string[]> GetAllPossibleCurrencies()
         {
+            await PrepareExchangeRates();
+
             return exchangeRates.First().Value.Keys.ToArray();
         }
 
-        public double[] GetCurrenciesExchangeHistory(
+        public async Task<double[]> GetCurrenciesExchangeHistory(
             string firstCurrency,
             string secondCurrency,
             DateTime beginningDate,
             DateTime endDate)
         {
+            await PrepareExchangeRates();
             return GetCurrenciesExchangeHistoryAsEnumerable(
                 firstCurrency,
                 secondCurrency,
@@ -115,48 +126,76 @@ namespace Realeyes.WebUI.Models
             }
         }
 
+        private async Task PrepareExchangeRates()
+        {
+            if ((DateTime.Now - lastTimeStamp) < updateInterval) return;
+
+            await semaphore.WaitAsync();
+
+            if ((DateTime.Now - lastTimeStamp) < updateInterval)
+            {
+                semaphore.Release();
+                return;
+            }
+
+            var mainXml = await dataSource.GetEcbExchangeRatesXml();
+            if (mainXml == null)
+            {
+                semaphore.Release();
+                return;
+            }
+
+            try
+            {
+                ParseXml(mainXml);
+                lastTimeStamp = DateTime.Now;
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+        }
+
         // <Cube time="2015-02-26">
         //    <Cube currency="USD" rate="1.1317"/>
-        private void PrepareExchangeRates()
+        private void ParseXml(XElement mainXml)
         {
-            var mainXml = this.dataSource.GetEcbExchangeRatesXml();
-            if (mainXml == null) return;
-
             var name = XName.Get("Cube", XML_NAMESPACE);
             var rates = mainXml.Element(name);
             if (rates == null) return;
 
+            exchangeRates.Clear();
             rates.Elements(name).ForEach(
                 p1 =>
-                    {
-                        XAttribute date = p1.Attribute("time");
-                        DateTime dateTime;
-                        if (date == null
-                            || !DateTime.TryParseExact(
-                                date.Value,
-                                "yyyy-MM-dd",
-                                null,
-                                DateTimeStyles.None,
-                                out dateTime)) return;
+                {
+                    XAttribute date = p1.Attribute("time");
+                    DateTime dateTime;
+                    if (date == null
+                        || !DateTime.TryParseExact(
+                            date.Value,
+                            "yyyy-MM-dd",
+                            null,
+                            DateTimeStyles.None,
+                            out dateTime)) return;
 
-                        var newRates = new Dictionary<string, double> { { EURO_CURRENCY_NAME, 1} };
-                        p1.Elements(name).ForEach(
-                            p2 =>
-                                {
-                                    XAttribute cur = p2.Attribute("currency");
-                                    XAttribute rate = p2.Attribute("rate");
+                    var newRates = new Dictionary<string, double> { { EURO_CURRENCY_NAME, 1 } };
+                    p1.Elements(name).ForEach(
+                        p2 =>
+                        {
+                            XAttribute cur = p2.Attribute("currency");
+                            XAttribute rate = p2.Attribute("rate");
 
-                                    if (cur == null || rate == null) return;
+                            if (cur == null || rate == null) return;
 
-                                    var curValue = cur.Value.ToUpper();
-                                    if (!newRates.ContainsKey(curValue)) newRates.Add(curValue, GetDouble(rate.Value));
-                                });
+                            var curValue = cur.Value.ToUpper();
+                            if (!newRates.ContainsKey(curValue)) newRates.Add(curValue, GetDouble(rate.Value));
+                        });
 
-                        if (!exchangeRates.ContainsKey(dateTime)) exchangeRates.Add(dateTime, newRates);
-                    });
+                    if (!exchangeRates.ContainsKey(dateTime)) exchangeRates.Add(dateTime, newRates);
+                });
         }
 
-        public static double GetDouble(string value, double defaultValue = 0)
+        private static double GetDouble(string value, double defaultValue = 0)
         {
             double result;
 
